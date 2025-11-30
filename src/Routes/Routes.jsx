@@ -3,6 +3,9 @@ import MainLayoutes from "../Layouts/MainLayouts/MainLayoutes";
 import Home from "../Pages/Home/Home";
 import Coverage from "../Pages/Coverage/Coverage";
 import SendParcel from "../Pages/SendPercel/SendParcel";
+import AuthLayout from "../Layouts/AuthLayoute/AuthLayout";
+import Login from "../Pages/Login/Login";
+import Register from "../Pages/Register/Register";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,5 +28,21 @@ const router = createBrowserRouter([
       }
     ]
   },
+
+  {
+    path: '/',
+    element: <AuthLayout/>,
+    children:[
+      {
+        path: '/login',
+        element: <Login/>
+      },
+
+      {
+        path: '/register',
+        element: <Register/>
+      }
+    ]
+  }
 ]);
 export default router
