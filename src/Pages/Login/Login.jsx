@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { use } from 'react';
 import { Link } from 'react-router';
 import GoogleLogin from '../../Components/SocialAuth/GoogleLogin';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../Auth/AuthContext';
+import useAuth from '../../Hook/useAuth';
 
 const Login = () => {
 
-     const {
-            register,
-            handleSubmit,
-            watch,
-            formState: { errors },
-        } = useForm()
-    
-        const handleLogin = (data) => {
-            console.log(data)
-        }
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm()
+
+    // Handle Login function 
+    const handleLogin = (data) => {
+        console.log(data)
+    }
 
     return (
-         <div className='flex flex-col justify-center items-center min-h-screen'>
+        <div className='flex flex-col justify-center items-center min-h-screen'>
             <div className='space-y-2 pb-5 text-center'>
                 <h2 className='text-4xl font-bold text-secondary text-start'> Welcome to GoFly </h2>
                 <p className='text-secondary'>Login with GoFly</p>
@@ -26,21 +29,21 @@ const Login = () => {
                 <div className="card-body">
                     <form onSubmit={handleSubmit(handleLogin)}>
                         <fieldset className="fieldset">
-                            
+
                             {/* Email Field */}
                             <label className="label">Email</label>
                             <input border-secondary type="email" {...register('email')} className="input border-secondary" placeholder="Email" />
-                            
+
                             {/* Password Field */}
                             <label className="label">Password</label>
                             <input border-secondary type="password" {...register('password')} className="input border-secondary" placeholder="Password" />
-                           
+
                             <div><a className="link link-hover">Forgot password?</a></div>
                             <button className="btn btn-neutral mt-4">Login</button>
 
                         </fieldset>
                     </form>
-                    <GoogleLogin/>
+                    <GoogleLogin />
                     <p>Don't have an Account? <Link to='/register' className='font-bold text-secondary'>register</Link></p>
                 </div>
             </div>
