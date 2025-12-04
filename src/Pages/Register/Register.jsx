@@ -1,19 +1,66 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import GoogleLogin from '../../Components/SocialAuth/GoogleLogin';
 import { useForm } from 'react-hook-form';
+import useAuth from '../../Hook/useAuth';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { imageUpload } from '../../Utilits/imageUpload';
+import useAxiosSecure from '../../Hook/useAxiosSecure';
 
 const Register = () => {
+
+    const { createUser, updateUserProfile } = useAuth()
+
+    const axiosSecure = useAxiosSecure()
+
+    const navigate = useNavigate()
 
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm()
+    } = useForm();
 
-    const handleRegister = (data) => {
-        console.log(data)
+    const handleRegister = async (data) => {
+
+        try {
+            const email = data.email;
+            const password = data.password;
+            const name = data.name;
+            const getImage = data.image[0]
+
+            const result = await createUser(email, password)
+            const user = result.user
+
+            //UPLOAD IMAGE BY IMAGE BB 
+            const imageURL = await imageUpload(getImage)
+
+
+            // UPDATE PROFILE 
+            const updateInfo = {
+                displayName: name,
+                photoURL: imageURL
+            }
+            updateUserProfile(updateInfo)
+
+            // INSERT DATA IN DATABASE 
+            const userInfo = {
+                name: data.name,
+                email: data.email,
+                image: imageURL,
+            }
+            const res = await axiosSecure.post(`/user`,userInfo)
+            
+
+            toast.success('Registration Successfully!')
+            navigate('/')
+        }
+        catch (er) {
+            toast.error(er)
+        }
+
     }
 
     return (

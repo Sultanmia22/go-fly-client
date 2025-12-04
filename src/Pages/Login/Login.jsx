@@ -1,11 +1,15 @@
 import React, { use } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import GoogleLogin from '../../Components/SocialAuth/GoogleLogin';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Auth/AuthContext';
 import useAuth from '../../Hook/useAuth';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+
+    const { userLogin } = useAuth()
+    const navigate = useNavigate()
 
     const {
         register,
@@ -15,9 +19,24 @@ const Login = () => {
     } = useForm()
 
     // Handle Login function 
-    const handleLogin = (data) => {
-        console.log(data)
-    }
+    const handleLogin = async (data) => {
+
+        try {
+            const email = data.email;
+            const password = data.password;
+
+            // Login user 
+           const result = await userLogin(email, password);
+           const user = result.user;
+
+            toast.success('Login Successfully!')
+            navigate('/')
+        }
+        catch (er) {
+            toast.error(er)
+        }
+
+    };
 
     return (
         <div className='flex flex-col justify-center items-center min-h-screen'>
