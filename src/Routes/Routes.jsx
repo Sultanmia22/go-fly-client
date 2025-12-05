@@ -6,7 +6,9 @@ import SendParcel from "../Pages/SendPercel/SendParcel";
 import AuthLayout from "../Layouts/AuthLayoute/AuthLayout";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import DashBoardLayouts from "../Layouts/DashboardLayouts/DashBoardLayouts";
 const router = createBrowserRouter([
+  //! main layouts
   {
     path: "/",
     element: <MainLayoutes/>,
@@ -29,6 +31,7 @@ const router = createBrowserRouter([
     ]
   },
 
+  //! auth routes
   {
     path: '/',
     element: <AuthLayout/>,
@@ -43,6 +46,15 @@ const router = createBrowserRouter([
         element: <Register/>
       }
     ]
+  },
+  
+  {
+    path: 'dashboard',
+    element: <DashBoardLayouts/>,
+    children: [
+     
+    ]
   }
+
 ]);
 export default router
